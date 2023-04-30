@@ -1,0 +1,11 @@
+.container {
+    position: relative;
+    border-left: 20px solid white;
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+
+    div {
+        font-size: 11px;
+    }
+}

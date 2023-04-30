@@ -1,0 +1,16 @@
+.item {
+    color: white;
+    position: absolute;
+    font-size: 12px;
+    padding: 3px 8px;
+    box-sizing: border-box;
+    border-radius: 6px;
+    width: auto;
+
+    &.start-only {
+        color: #333 !important;
+        border-left: 3px solid black;
+        border-radius: 0;
+        padding-left: 6px
+    }
+}

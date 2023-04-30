@@ -1,20 +1,49 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TimelineComponent } from './timeline/timeline.component';
+import { TimelineComponent, TypeFilterPipe } from './timeline/timeline.component';
+import { GroupComponent } from './timeline/group/group.component';
+import { AxisLabelsComponent } from './timeline/axis-labels/axis-labels.component';
+import { ItemComponent } from './item/item.component';
+import { MatTabsModule } from '@angular/material/tabs';
+/*import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core'*/
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatTableModule} from '@angular/material/table';
+import { ItemDetailDialogComponent } from './timeline/item-detail-dialog/item-detail-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TimelineComponent
+    TypeFilterPipe,
+    TimelineComponent,
+    GroupComponent,
+    AxisLabelsComponent,
+    ItemComponent,
+    ItemDetailDialogComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    //MatDatepickerModule,
+    MatDialogModule,
+    //MatNativeDateModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatTableModule,
+    MatTabsModule,
+    MatToolbarModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [/*MatDatepickerModule*/],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

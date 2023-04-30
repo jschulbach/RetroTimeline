@@ -1,0 +1,3 @@
+<div class="container" *ngIf="items.length" [style.height.px]="items.length * 25" [style.border-left-color]="color">
+    <timeline-item *ngFor="let item of items" [item]="item" [color]="color"></timeline-item>
+</div>
