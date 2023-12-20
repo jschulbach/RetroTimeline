@@ -1,0 +1,49 @@
+.item {
+    color: white;
+    cursor: pointer;
+    position: absolute;
+    font-size: 12px;
+    padding: 3px 8px;
+    box-sizing: border-box;
+    border-radius: 6px;
+    width: auto;
+
+    &.start-only {
+        background-color: transparent !important;
+        color: #333 !important;
+        border-left: 3px solid black;
+        border-radius: 0;
+        padding-left: 6px;
+        white-space: nowrap;
+    }
+
+    &.category {
+        &-0 {
+            background-color: var(--category-0);
+            border-color: var(--category-0);
+            
+            &:hover{
+                background-color: var(--category-0-hover);
+            }
+        }
+        &-1 {
+            background-color: var(--category-1);
+            border-color: var(--category-1);
+        }
+        &-2 {
+            background-color: var(--category-2)
+        }
+        &-3 {
+            background-color: var(--category-3)
+        }
+        &-4 {
+            background-color: var(--category-4)
+        }
+        &-5 {
+            background-color: var(--category-5)
+        }
+        &-6 {
+            background-color: var(--category-6)
+        }
+    }
+}

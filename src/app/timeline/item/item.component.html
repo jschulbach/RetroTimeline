@@ -1,0 +1,1 @@
+<div class="item" (click)="openDialog()" [ngClass]="['category-' + category, item?.width ? '' : 'start-only']" [style.left.px]="item?.leftPos" [style.top.px]="item?.topPos" [style.width.px]="item?.width">{{item?.metaData?.name}}</div>
