@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { TimelineComponent, TypeFilterPipe } from './timeline/timeline.component';
 import { GroupComponent } from './timeline/group/group.component';
 import { AxisLabelsComponent } from './timeline/axis-labels/axis-labels.component';
-import { ItemComponent } from './item/item.component';
+import { ItemComponent } from './timeline/item/item.component';
 import { MatTabsModule } from '@angular/material/tabs';
 /*import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core'*/

@@ -9,11 +9,12 @@ import { timelineItem } from '../timelineItem';
 export class GroupComponent implements OnInit {
 
   @Input() items: timelineItem[] = [];
-  @Input() color: string = "red";
+  @Input() category: number = 1;
 
   constructor() { }
 
   ngOnInit(): void {
+    console.log('group got items', this.items)
   }
 
 }

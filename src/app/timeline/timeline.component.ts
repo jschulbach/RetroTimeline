@@ -9,26 +9,29 @@ import { Base } from '../models/Base';
   styleUrls: ['./timeline.component.scss']
 })
 export class TimelineComponent implements OnInit {
-
-  public startDate = new Date("1970");
+  public startYear = "1970";
+  public startDate = new Date(this.startYear);
   public endDate = new Date("2023");
   public yearWidth: number = 0;
   public itemTypes: string[] = [];
-  public years = [1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967, 1968, 1969, 1970, 1971, 1972, 1973, 1974, 1975]
-  public groupColors = ['red', 'blue', 'green', 'orange', 'purple']
-  public items: timelineItem[] = [
-    {display: false, metaData: {name: "Intel 8080", type: "CPU"},leftPos: 0,topPos: 0, startDate:new Date("1-1-1974"), endDate:new Date("1-1-1990"), width: 0},
-    {display: false, metaData: {name: "MOS 6502", type: "CPU"}, leftPos: 0, topPos: 0, startDate:new Date("1-1-1975"), endDate:new Date("1-1-2010"), width: 0},
-    {display: false, metaData: {name: "Intel 286", type: "CPU"},leftPos: 0,topPos: 0, startDate:new Date("1-1-1982"), endDate:new Date("1-1-1991"), width: 0},
-    {display: false, metaData: {name: "Intel 386", type: "CPU"},leftPos: 0,topPos: 0, startDate:new Date("1-1-1985"), endDate:new Date("1-1-2007"), width: 0},
-    {display: false, metaData: {name: "Intel 486", type: "CPU"},leftPos: 0,topPos: 0, startDate:new Date("1-1-1989"), endDate:new Date("1-1-2007"), width: 0},
-    {display: false, metaData: {name: "486bx2", type: "Motherboard"},leftPos: 0,topPos: 0, startDate:new Date("1-1-1989"), width: 0},
-    {display: false, metaData: {name: "Commodore 64", type: "Computer"},leftPos: 0,topPos: 0, startDate:new Date("1-1-1982"), endDate:new Date("1-1-1994"), width: 0},
-    {display: false, metaData: {name: "Nabu", type: "Computer"},leftPos: 0,topPos: 0, startDate:new Date("1-1-1982"), endDate:new Date("1-1-1985"), width: 0},
-    {display: false, metaData: {name: "Voodoo 2", type: "Video Card"},leftPos: 0,topPos: 0, startDate:new Date("1-1-1998")},
-    {display: false, metaData: {name: "DDR", type: "Tech Standard"},leftPos: 0,topPos: 0, startDate:new Date("1-1-1998")},
-    {display: false, metaData: {name: "DDR2", type: "Tech Standard"},leftPos: 0,topPos: 0, startDate:new Date("1-1-2003")},
-    {display: false, metaData: {name: "DDR3", type: "Tech Standard"},leftPos: 0,topPos: 0, startDate:new Date("1-1-2007")},];
+  public displayEmpty = true;
+  public sourceList: Base[] = [
+    {name: "Intel 8080", type: Category.CPU, releaseDate: "1974-01-01T00:00", endOfLifeDate: "1990-01-01T00:00"},
+    {name: "MOS 6502", type: Category.CPU, releaseDate: "1975-01-01T00:00", endOfLifeDate: "2010-01-01T00:00"},
+    {name: "Intel 286", type: Category.CPU, releaseDate: "1982-01-01T00:00", endOfLifeDate: "1991-01-01T00:00"},
+    {name: "Intel 386", type: Category.CPU, releaseDate: "1985-01-01T00:00", endOfLifeDate: "2007-01-01T00:00"},
+    {name: "Intel 486", type: Category.CPU, releaseDate: "1989-01-01T00:00", endOfLifeDate: "2007-01-01T00:00"},
+    {name: "486bx2", type: Category.Motherboard, releaseDate: "1989-01-01T00:00"},
+    {name: "Commodore 64", type: Category.Computer, releaseDate: "1982-01-01T00:00", endOfLifeDate: "1994-01-01T00:00"},
+    {name: "Nabu", type: Category.Computer, releaseDate: "1982-01-01T00:00", endOfLifeDate: "1985-01-01T00:00"},
+    {name: "Voodoo 2", type: Category.VideoCard, releaseDate: "1998-01-01T00:00"},
+    {name: "DDR", type: Category.Memory, releaseDate: "1998-01-01T00:00"},
+    {name: "DDR2", type: Category.Memory, releaseDate: "2003-01-01T00:00"},
+    {name: "DDR3", type: Category.Memory, releaseDate: "2007-01-01T00:00"},
+    {name: "Sound Blaster 1.0", type: Category.SoundCard, releaseDate: "1989-01-01T00:00"},
+    {name: "Sound Blaster 1.5", type: Category.SoundCard, releaseDate: "1990-01-01T00:00"}
+  ]
+  public items: timelineItem[] = [];
   public displayItems: {[k: string]: timelineItem[]} = {};
   displayedColumns: string[] = ['display', 'name', 'start', 'end'];
   dataSource = this.items;
@@ -39,30 +42,40 @@ export class TimelineComponent implements OnInit {
     let timeDiff = this.endDate.getTime() - this.startDate.getTime(); 
     let years = timeDiff / (1000 * 3600 * 24 * 365);
     this.yearWidth = Math.floor((this.el.nativeElement.offsetWidth - 20) / years);
+    this.populateItems();
     this.populateItemTypes();
     this.items = this.updateItems(this.items);
+  }
+  populateItems() { 
+    this.sourceList.forEach(item => this.items.push({display: false, leftPos: 0, topPos: 0, width: 0, metaData: item}))
   }
 
   populateItemTypes() {
     this.items.forEach(item => {
-      if(!this.itemTypes.includes(item.metaData.type)) {
-        this.itemTypes.push(item.metaData.type);
-        this.displayItems[item.metaData.type] = [];
+      console.log(item.metaData.type, Category[item.metaData.type])
+      if(!this.itemTypes.includes(Category[item.metaData.type])) {
+        this.itemTypes.push(Category[item.metaData.type]);
+        this.displayItems[Category[item.metaData.type]] = [];
       }
     });
+  }
+
+  updateRange(input: string) {
+    this.startDate = new Date(input);
+    this.ngOnInit();
   }
 
   updateItems(items: any) {
     this.clearDisplayItems();
     this.items.forEach(item => {
       if(item.display) {
-        let years = Math.floor((item.startDate.getTime() - this.startDate.getTime()) / (1000 * 3600 * 24 * 365));
+        let years = Math.floor((new Date(item.metaData.releaseDate).getTime() - this.startDate.getTime()) / (1000 * 3600 * 24 * 365));
         item.leftPos = years * this.yearWidth;
-        item.topPos = this.displayItems[item.metaData.type].length * 25;
-        if(item.endDate)
-          item.width = Math.floor((item.endDate.getTime() - item.startDate.getTime()) / (1000 * 3600 * 24 * 365)) * this.yearWidth;
-        //top+=30;
-        this.displayItems[item.metaData.type].push(item);
+        item.topPos = this.displayItems[Category[item.metaData.type]].length * 25;
+        if(item.metaData.endOfLifeDate)
+          item.width = Math.floor((new Date(item.metaData.endOfLifeDate).getTime() - new Date(item.metaData.releaseDate).getTime()) / (1000 * 3600 * 24 * 365)) * this.yearWidth;
+        this.displayItems[Category[item.metaData.type]].push(item);
+        this.displayEmpty = false;
       }
     });
     return items;
@@ -72,6 +85,7 @@ export class TimelineComponent implements OnInit {
     for(const k in this.displayItems) {
       this.displayItems[k] = [];
     }
+    this.displayEmpty = true;
   }
 
   toggleItem(item: any) {
@@ -82,6 +96,7 @@ export class TimelineComponent implements OnInit {
 }
 
 import { Pipe, PipeTransform } from '@angular/core';
+import { Category } from '../models/category.enum';
 
 @Pipe({
     name: 'typefilter',
@@ -95,7 +110,7 @@ export class TypeFilterPipe implements PipeTransform {
         // filter items array, items which match and return true will be
         // kept, false will be filtered out
         
-        var itemlist =  items.filter(item => item.metaData.type == filter );
+        var itemlist =  items.filter(item => item.metaData.type == Category[filter as keyof typeof Category] );
         return itemlist;
     }
 }

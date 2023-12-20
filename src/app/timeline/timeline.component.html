@@ -1,6 +1,6 @@
-
+<div class="empty-message" *ngIf="displayEmpty">Select items to display.</div>
 <ng-container *ngFor="let type of itemTypes; let i = index">
-    <timeline-group [items]="displayItems[type]" [color]="groupColors[i]"></timeline-group>
+    <timeline-group [items]="displayItems[type]" [category]="i"></timeline-group>
 </ng-container>
 <timeline-axis-labels [startDate]="startDate" [endDate]="endDate"></timeline-axis-labels>
 <mat-tab-group animationDuration="0ms">
@@ -31,11 +31,13 @@
     </mat-tab>
     <mat-tab label="Settings">
         <mat-select>
-            <mat-option placeholder="Select a year" *ngFor="let year of years">
+            <!--<mat-option placeholder="Select a year" *ngFor="let year of years">
                 {{year}}
-            </mat-option>
+            </mat-option>-->
         </mat-select>
     </mat-tab>
 </mat-tab-group>
 
+
+<input type="text" #startYear (keyup.enter)="updateRange(startYear.value)" />
 
