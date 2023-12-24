@@ -1,13 +1,18 @@
 .item {
+    align-items: center;
     color: white;
     cursor: pointer;
+    display: flex;
+    flex-direction: row;
     position: absolute;
     font-size: 12px;
-    padding: 3px 8px;
+    padding: 3px 5px;
     box-sizing: border-box;
     border-radius: 6px;
     width: auto;
-
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    
     &.start-only {
         background-color: transparent !important;
         color: #333 !important;
@@ -18,7 +23,7 @@
     }
 
     &.category {
-        &-0 {
+        &-CPU {
             background-color: var(--category-0);
             border-color: var(--category-0);
             
@@ -26,20 +31,20 @@
                 background-color: var(--category-0-hover);
             }
         }
-        &-1 {
+        &-Motherboard {
             background-color: var(--category-1);
             border-color: var(--category-1);
         }
-        &-2 {
+        &-Computer {
             background-color: var(--category-2)
         }
-        &-3 {
+        &-VideoCard {
             background-color: var(--category-3)
         }
-        &-4 {
+        &-Memory {
             background-color: var(--category-4)
         }
-        &-5 {
+        &-SoundCard {
             background-color: var(--category-5)
         }
         &-6 {

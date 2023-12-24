@@ -1,0 +1,7 @@
+[
+    {"id": "f9395865-5b47-493e-b814-e22a252885f4","name": "30 pin Simm", "type": "Memory", "releaseDate": "1982-01-01"},
+    {"id": "f9395865-5b47-493e-b814-e22a252885f4","name": "72 pin Simm", "type": "Memory", "releaseDate": "1991-01-01"},
+    {"id": "f9395865-5b47-493e-b814-e22a252885f4","name": "DDR", "type": "Memory", "releaseDate": "1998-01-01"},
+    {"id": "0d8331a2-d0c1-404e-b75c-9ce9c4a8c2da","name": "DDR2", "type": "Memory", "releaseDate": "2003-01-01"},
+    {"id": "9a32b3c7-322e-42aa-a674-8674b6754080","name": "DDR3", "type": "Memory", "releaseDate": "2007-01-01"}
+]

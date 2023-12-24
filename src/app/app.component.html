@@ -1,2 +1,11 @@
-<mat-toolbar>Retro Explorer </mat-toolbar>
-<timeline></timeline>
+<mat-toolbar>Retro Explorer 
+    <div class="range">
+    {{startDateSlider.value}}
+    <mat-slider min="1970" max="2024" color="">
+        <input #startDateSlider value="1970" (input)="timeline.setStartYear($event)" matSliderStartThumb>
+        <input #endDateSlider value="2023" (input)="timeline.setEndYear($event)" matSliderEndThumb>
+    </mat-slider>
+    {{endDateSlider.value}}
+    </div>
+</mat-toolbar>
+<timeline #timeline></timeline>

@@ -1,9 +1,10 @@
 export enum Category {
-    CPU,
-    Computer,
-    Memory,
-    Motherboard,
-    SoundCard,
-    Standard,
-    VideoCard
+    CPU = "CPU",
+    Computer = "Computer",
+    Memory = "Memory",
+    Motherboard = "Motherboard",
+    SoundCard = "SoundCard",
+    Standard = "Standard",
+    VideoCard = "VideoCard",
+    OS = "OS"
 }

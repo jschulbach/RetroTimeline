@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { timelineItem } from '../timelineItem';
 import {MatDialog} from '@angular/material/dialog';
 import { ItemDetailDialogComponent } from '../item-detail-dialog/item-detail-dialog.component';
+import { Category } from 'src/app/models/category.enum';
 
 @Component({
   selector: 'timeline-item',
@@ -9,13 +10,22 @@ import { ItemDetailDialogComponent } from '../item-detail-dialog/item-detail-dia
   styleUrls: ['./item.component.scss']
 })
 export class ItemComponent implements OnInit {
-  @Input() item: timelineItem | undefined;
-  @Input() category = 1;
-  
+  @Input() item!: timelineItem;
+  public icon:string = '';
+
   constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    
+    switch(this.item.metaData.type as Category) {
+      case Category.CPU :
+      case Category.Memory :
+        this.icon = 'memory';
+        break;
+      case Category.Computer:
+        this.icon = 'computer';
+        break;
+      default:
+    }
   }
 
   openDialog() {

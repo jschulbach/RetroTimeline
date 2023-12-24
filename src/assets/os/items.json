@@ -1,0 +1,5 @@
+[
+    {"id": "e7df4bcf-0637-4aa3-a0fc-6830e3dc266f", "name": "Windows 3.1", "type": "Motherboard", "releaseDate": "1989-01-01"},
+    {"id": "9138619a-9d0e-4d8e-a8e1-66be88ac7f54","name": "Windows 95", "type": "VideoCard", "releaseDate": "1996-10-07"},
+    {"id": "9138619a-9d0e-4d8e-a8e1-66be88ac7f54","name": "Windows 98", "type": "VideoCard", "releaseDate": "1996-10-07"}
+]

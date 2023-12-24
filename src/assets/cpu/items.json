@@ -1,0 +1,14 @@
+[
+    {"name": "Intel 8080", "type": "CPU", "releaseDate": "1974-01-01", "endOfLifeDate": "1990-01-01"},
+    {"name": "MOS 6502", "type": "CPU", "releaseDate": "1975-01-01", "endOfLifeDate": "2010-01-01"},
+    {"name": "Intel 286", "type": "CPU", "releaseDate": "1982-01-01", "endOfLifeDate": "1991-01-01"},
+    {"name": "Intel 386", "type": "CPU", "releaseDate": "1985-01-01", "endOfLifeDate": "2007-01-01"},
+    {"name": "Intel 486", "type": "CPU", "releaseDate": "1989-01-01", "endOfLifeDate": "2007-01-01"},
+    {"name": "Intel Pentium", "type": "CPU", "releaseDate": "1993-3-22"},
+    {"name": "Intel Pentium II", "type": "CPU", "releaseDate": "1997-5-1"},
+    {"name": "Intel Pentium III Katmai", "type": "CPU", "releaseDate": "1999-2-1"},
+    {"name": "Intel Pentium III Coppermine", "type": "CPU", "releaseDate": "1999-10-1"},
+    {"name": "Intel Pentium III Tualatin", "type": "CPU", "releaseDate": "2001-7-1"},
+    {"name": "Intel Pentium IV Willamette", "type": "CPU", "releaseDate": "2000-11-1"},
+    {"name": "Intel Pentium IV Northwood", "type": "CPU", "releaseDate": "2002-1-1"}
+]

@@ -1,3 +1,29 @@
 mat-toolbar {
+    color: white;
     background-color: #444;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+mat-slider {
+    width: 300px;
+    margin-left: 15px
+}
+
+.range {
+    font-size: 0.6em
+}
+
+.mat-mdc-slider.mat-primary {
+    --mdc-slider-handle-color: #fff;
+    --mdc-slider-focus-handle-color: #fff;
+    --mdc-slider-hover-handle-color: #fff;
+    --mdc-slider-active-track-color: #fff;
+    --mdc-slider-inactive-track-color: #fff;
+    --mdc-slider-with-tick-marks-active-container-color: #fff;
+    --mdc-slider-with-tick-marks-inactive-container-color: #fff;
+    --mat-mdc-slider-ripple-color: #fff;
+    --mat-mdc-slider-hover-ripple-color: rgba(255, 255, 255, 0.05);
+    --mat-mdc-slider-focus-ripple-color: rgba(255, 255, 255, 0.2);
 }

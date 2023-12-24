@@ -1,3 +1,4 @@
 <div class="container">
-    <div *ngFor="let label of labels; let i = index" [style.width.px]="yearWidth">{{label}}</div>
+    <div *ngFor="let label of labels; let i = index" [style.width.px]="yearWidth"><div [style.width.px]="yearWidth" [ngClass]="{'stripe': i % 2}"></div>{{label}}</div>
 </div>
+

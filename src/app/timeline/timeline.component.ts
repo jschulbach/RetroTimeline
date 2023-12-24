@@ -1,7 +1,7 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { timelineItem } from './timelineItem'
 import { Base } from '../models/Base';
-
+import { ItemService } from '../../item.service';
 
 @Component({
   selector: 'timeline',
@@ -9,50 +9,87 @@ import { Base } from '../models/Base';
   styleUrls: ['./timeline.component.scss']
 })
 export class TimelineComponent implements OnInit {
-  public startYear = "1970";
-  public startDate = new Date(this.startYear);
-  public endDate = new Date("2023");
+  private startYearSubject: BehaviorSubject<string> = new BehaviorSubject("1970");
+  public startDate = new Date();
+  private endYearSubject: BehaviorSubject<string> = new BehaviorSubject("2023");
+  public endDate = new Date();
   public yearWidth: number = 0;
   public itemTypes: string[] = [];
   public displayEmpty = true;
-  public sourceList: Base[] = [
-    {name: "Intel 8080", type: Category.CPU, releaseDate: "1974-01-01T00:00", endOfLifeDate: "1990-01-01T00:00"},
-    {name: "MOS 6502", type: Category.CPU, releaseDate: "1975-01-01T00:00", endOfLifeDate: "2010-01-01T00:00"},
-    {name: "Intel 286", type: Category.CPU, releaseDate: "1982-01-01T00:00", endOfLifeDate: "1991-01-01T00:00"},
-    {name: "Intel 386", type: Category.CPU, releaseDate: "1985-01-01T00:00", endOfLifeDate: "2007-01-01T00:00"},
-    {name: "Intel 486", type: Category.CPU, releaseDate: "1989-01-01T00:00", endOfLifeDate: "2007-01-01T00:00"},
-    {name: "486bx2", type: Category.Motherboard, releaseDate: "1989-01-01T00:00"},
-    {name: "Commodore 64", type: Category.Computer, releaseDate: "1982-01-01T00:00", endOfLifeDate: "1994-01-01T00:00"},
-    {name: "Nabu", type: Category.Computer, releaseDate: "1982-01-01T00:00", endOfLifeDate: "1985-01-01T00:00"},
-    {name: "Voodoo 2", type: Category.VideoCard, releaseDate: "1998-01-01T00:00"},
-    {name: "DDR", type: Category.Memory, releaseDate: "1998-01-01T00:00"},
-    {name: "DDR2", type: Category.Memory, releaseDate: "2003-01-01T00:00"},
-    {name: "DDR3", type: Category.Memory, releaseDate: "2007-01-01T00:00"},
-    {name: "Sound Blaster 1.0", type: Category.SoundCard, releaseDate: "1989-01-01T00:00"},
-    {name: "Sound Blaster 1.5", type: Category.SoundCard, releaseDate: "1990-01-01T00:00"}
-  ]
+  public sourceList: Base[] = [];
   public items: timelineItem[] = [];
   public displayItems: {[k: string]: timelineItem[]} = {};
   displayedColumns: string[] = ['display', 'name', 'start', 'end'];
   dataSource = this.items;
+  public allDisplayedForType: any = {
+    computer: false
+  }
+  @ViewChild(MatTabGroup) tabGroup: MatTabGroup | undefined;
 
-  constructor(private el: ElementRef) {}
+  constructor(private el: ElementRef, private itemService: ItemService) {}
 
   ngOnInit(): void {
-    let timeDiff = this.endDate.getTime() - this.startDate.getTime(); 
-    let years = timeDiff / (1000 * 3600 * 24 * 365);
-    this.yearWidth = Math.floor((this.el.nativeElement.offsetWidth - 20) / years);
-    this.populateItems();
-    this.populateItemTypes();
-    this.items = this.updateItems(this.items);
+    this.setupDateRange();
+    this.getItems(); 
+    
   }
+  
+  setupDateRange() {
+    this.getStartYear().subscribe(y => {
+      this.startDate = new Date(y);
+      let timeDiff = this.endDate.getTime() - this.startDate.getTime(); 
+      let years = Math.floor(timeDiff / (1000 * 3600 * 24 * 365));
+      this.yearWidth = Math.round((this.el.nativeElement.offsetWidth) / years);
+      this.updateItems(this.items); 
+    });
+          
+    this.getEndYear().subscribe(y => {
+      this.endDate = new Date(y);
+      let timeDiff = this.endDate.getTime() - this.startDate.getTime(); 
+      let years = Math.floor(timeDiff / (1000 * 3600 * 24 * 365));
+      console.log('years: ', years)
+      console.log('timeline width: ', this.el.nativeElement.offsetWidth)
+      this.yearWidth = Math.round((this.el.nativeElement.offsetWidth) / years);
+      console.log(this.yearWidth)
+      this.updateItems(this.items);
+    });
+  }
+
+  getItems(): void {
+    this.itemService.getItems().subscribe(items => {
+      console.log(items);
+      this.sourceList = items
+      this.populateItems();
+      this.populateItemTypes();
+      this.items = this.updateItems(this.items);
+      if(this.tabGroup)
+        this.tabGroup.selectedIndex = 0;
+    });
+  }
+
+  getStartYear(): Observable<string> {
+    return this.startYearSubject.asObservable();
+  }
+
+  setStartYear(event: Event) {
+    this.startYearSubject.next((event.target as HTMLInputElement).value);
+  }
+
+  getEndYear(): Observable<string> {
+    return this.endYearSubject.asObservable();
+  }
+
+  setEndYear(event: Event) {
+
+    this.endYearSubject.next((event.target as HTMLInputElement).value);
+  }
+  
   populateItems() { 
     this.sourceList.forEach(item => this.items.push({display: false, leftPos: 0, topPos: 0, width: 0, metaData: item}))
   }
 
   populateItemTypes() {
     this.items.forEach(item => {
-      console.log(item.metaData.type, Category[item.metaData.type])
       if(!this.itemTypes.includes(Category[item.metaData.type])) {
         this.itemTypes.push(Category[item.metaData.type]);
         this.displayItems[Category[item.metaData.type]] = [];
@@ -60,18 +97,16 @@ export class TimelineComponent implements OnInit {
     });
   }
 
-  updateRange(input: string) {
-    this.startDate = new Date(input);
-    this.ngOnInit();
-  }
-
   updateItems(items: any) {
     this.clearDisplayItems();
     this.items.forEach(item => {
       if(item.display) {
+        console.log("found one to display")
         let years = Math.floor((new Date(item.metaData.releaseDate).getTime() - this.startDate.getTime()) / (1000 * 3600 * 24 * 365));
-        item.leftPos = years * this.yearWidth;
-        item.topPos = this.displayItems[Category[item.metaData.type]].length * 25;
+        console.log(years, item.metaData.releaseDate, this.startDate)
+        console.log("settign left for item to ", years, this.yearWidth, years * this.yearWidth)
+        item.leftPos = years * this.yearWidth + (Math.round(new Date(item.metaData.releaseDate).getMonth() * this.yearWidth/12));
+        item.topPos = this.displayItems[Category[item.metaData.type]].length * 35;
         if(item.metaData.endOfLifeDate)
           item.width = Math.floor((new Date(item.metaData.endOfLifeDate).getTime() - new Date(item.metaData.releaseDate).getTime()) / (1000 * 3600 * 24 * 365)) * this.yearWidth;
         this.displayItems[Category[item.metaData.type]].push(item);
@@ -81,6 +116,19 @@ export class TimelineComponent implements OnInit {
     return items;
   }
 
+  someDisplayed(category: string): boolean {
+    if (this.items == null) {
+      return false;
+    }
+    console.log(category , this.items.filter(i => i.metaData.type == category && i.display).length)
+    var selectedItemsCount = this.items.filter(i => i.metaData.type == category && i.display).length;
+    return selectedItemsCount > 0 && selectedItemsCount < this.items.filter(i => i.metaData.type == category).length;
+  }
+
+  allDisplayed(category: string): boolean {
+    return this.items.filter(i => i.metaData.type == category && i.display).length == this.items.filter(i => i.metaData.type).length;
+  }
+
   clearDisplayItems() {
     for(const k in this.displayItems) {
       this.displayItems[k] = [];
@@ -88,15 +136,32 @@ export class TimelineComponent implements OnInit {
     this.displayEmpty = true;
   }
 
-  toggleItem(item: any) {
-    item.display = !item.display;
+  toggleItem(displayItem: any) {
+    console.log("toggle one", displayItem.display)
+    var masterItem = this.items.find((item) => displayItem.metaData.id == item.metaData.id)
+    if(masterItem) {
+      masterItem.display = !masterItem.display;
+      displayItem.display = !displayItem.display;
+    }
     this.updateItems(this.items);
-  } 
+  }
+
+  toggleDisplay(completed: boolean, type: string) {
+    console.log("toggle all")
+    this.allDisplayedForType[type] = completed;
+    this.items.forEach(item => {
+      if(item.metaData.type === type) 
+        item.display = completed;
+    })
+    this.updateItems(this.items);
+  }
 
 }
 
 import { Pipe, PipeTransform } from '@angular/core';
 import { Category } from '../models/category.enum';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { MatTabGroup } from '@angular/material/tabs';
 
 @Pipe({
     name: 'typefilter',
