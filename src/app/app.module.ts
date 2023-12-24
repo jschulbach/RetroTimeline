@@ -34,13 +34,11 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    //MatDatepickerModule,
     FormsModule,
     HttpClientModule,
     MatCheckboxModule,
     MatDialogModule,
     MatIconModule,
-    //MatNativeDateModule,
     MatFormFieldModule,
     MatSelectModule,
     MatSliderModule,
@@ -50,7 +48,7 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule,
     BrowserAnimationsModule
   ],
-  providers: [/*MatDatepickerModule*/],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
