@@ -20,6 +20,8 @@ import { MatDialogModule} from '@angular/material/dialog';
 import { MatTableModule} from '@angular/material/table';
 import { ItemDetailDialogComponent } from './timeline/item-detail-dialog/item-detail-dialog.component';
 import { HttpClientModule } from '@angular/common/http';
+import {MatButtonModule} from '@angular/material/button';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [
@@ -35,12 +37,14 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    MatButtonModule,
     HttpClientModule,
     MatCheckboxModule,
     MatDialogModule,
     MatIconModule,
     MatFormFieldModule,
     MatSelectModule,
+    MatSidenavModule,
     MatSliderModule,
     MatTableModule,
     MatTabsModule,

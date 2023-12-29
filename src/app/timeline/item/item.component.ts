@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { timelineItem } from '../timelineItem';
 import {MatDialog} from '@angular/material/dialog';
 import { ItemDetailDialogComponent } from '../item-detail-dialog/item-detail-dialog.component';
@@ -11,6 +11,7 @@ import { Category } from 'src/app/models/category.enum';
 })
 export class ItemComponent implements OnInit {
   @Input() item!: timelineItem;
+  @Output() handleClick = new EventEmitter
   public icon:string = '';
 
   constructor(public dialog: MatDialog) { }
@@ -29,11 +30,12 @@ export class ItemComponent implements OnInit {
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open(ItemDetailDialogComponent, {data: this.item?.metaData, position: {top: '30px'}});
+    this.handleClick.emit('clicked a button')
+    // const dialogRef = this.dialog.open(ItemDetailDialogComponent, {data: this.item?.metaData, position: {top: '30px'}});
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log(`Dialog result: ${result}`);
+    // });
   }
 
 }

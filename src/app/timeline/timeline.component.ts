@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { timelineItem } from './timelineItem'
 import { Base } from '../models/Base';
 import { ItemService } from '../../item.service';
+import {MatDrawer, MatSidenavModule} from '@angular/material/sidenav';
 
 @Component({
   selector: 'timeline',
@@ -25,6 +26,7 @@ export class TimelineComponent implements OnInit {
     computer: false
   }
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup | undefined;
+  @ViewChild(MatDrawer) drawer: MatDrawer | undefined;
 
   constructor(private el: ElementRef, private itemService: ItemService) {}
 
@@ -63,7 +65,7 @@ export class TimelineComponent implements OnInit {
       this.populateItemTypes();
       this.items = this.updateItems(this.items);
       if(this.tabGroup)
-        this.tabGroup.selectedIndex = 0;
+        this.tabGroup.selectedIndex = 1;
     });
   }
 
@@ -154,6 +156,11 @@ export class TimelineComponent implements OnInit {
         item.display = completed;
     })
     this.updateItems(this.items);
+  }
+
+  openSideDrawer(event: Event) {
+    if(this.drawer)
+      this.drawer.toggle()
   }
 
 }

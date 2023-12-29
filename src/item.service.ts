@@ -8,6 +8,8 @@ import { Observable, forkJoin, map } from 'rxjs';
 })
 export class ItemService {
 
+  private types = ['computer', 'cpu', 'memory', 'motherboard', 'soundcard', 'videocard', 'os'];
+
   constructor(private httpClient: HttpClient) { }
 
   getItems(): Observable<Base[]> {
