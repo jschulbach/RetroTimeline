@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { timelineItem } from './timelineItem'
 import { Base } from '../models/Base';
 import { ItemService } from '../../item.service';
@@ -14,7 +14,8 @@ export class TimelineComponent implements OnInit {
   public startDate = new Date();
   private endYearSubject: BehaviorSubject<string> = new BehaviorSubject("2023");
   public endDate = new Date();
-  public yearWidth: number = 0;
+  private yearWidthSubject: BehaviorSubject<string> = new BehaviorSubject("50");
+  public yearWidth: number = 50;
   public itemTypes: string[] = [];
   public displayEmpty = true;
   public sourceList: Base[] = [];
@@ -33,7 +34,10 @@ export class TimelineComponent implements OnInit {
   ngOnInit(): void {
     this.setupDateRange();
     this.getItems(); 
-    
+    this.getYearWidth().subscribe(w => {
+      this.yearWidth = +w;
+      this.updateItems(this.items);
+    });
   }
   
   setupDateRange() {
@@ -41,7 +45,6 @@ export class TimelineComponent implements OnInit {
       this.startDate = new Date(y);
       let timeDiff = this.endDate.getTime() - this.startDate.getTime(); 
       let years = Math.floor(timeDiff / (1000 * 3600 * 24 * 365));
-      this.yearWidth = Math.round((this.el.nativeElement.offsetWidth) / years);
       this.updateItems(this.items); 
     });
           
@@ -51,7 +54,6 @@ export class TimelineComponent implements OnInit {
       let years = Math.floor(timeDiff / (1000 * 3600 * 24 * 365));
       console.log('years: ', years)
       console.log('timeline width: ', this.el.nativeElement.offsetWidth)
-      this.yearWidth = Math.round((this.el.nativeElement.offsetWidth) / years);
       console.log(this.yearWidth)
       this.updateItems(this.items);
     });
@@ -77,12 +79,19 @@ export class TimelineComponent implements OnInit {
     this.startYearSubject.next((event.target as HTMLInputElement).value);
   }
 
+  setYearWidth(event: Event) {
+    this.yearWidthSubject.next((event.target as HTMLInputElement).value);
+  }
+
   getEndYear(): Observable<string> {
     return this.endYearSubject.asObservable();
   }
 
-  setEndYear(event: Event) {
+  getYearWidth(): Observable<string> {
+    return this.yearWidthSubject.asObservable();
+  }
 
+  setEndYear(event: Event) {
     this.endYearSubject.next((event.target as HTMLInputElement).value);
   }
   
@@ -103,10 +112,7 @@ export class TimelineComponent implements OnInit {
     this.clearDisplayItems();
     this.items.forEach(item => {
       if(item.display) {
-        console.log("found one to display")
-        let years = Math.floor((new Date(item.metaData.releaseDate).getTime() - this.startDate.getTime()) / (1000 * 3600 * 24 * 365));
-        console.log(years, item.metaData.releaseDate, this.startDate)
-        console.log("settign left for item to ", years, this.yearWidth, years * this.yearWidth)
+        let years = Math.floor((Date.parse(item.metaData.releaseDate) - this.startDate.getTime()) / (1000 * 3600 * 24 * 365));
         item.leftPos = years * this.yearWidth + (Math.round(new Date(item.metaData.releaseDate).getMonth() * this.yearWidth/12));
         item.topPos = this.displayItems[Category[item.metaData.type]].length * 35;
         if(item.metaData.endOfLifeDate)
@@ -122,7 +128,6 @@ export class TimelineComponent implements OnInit {
     if (this.items == null) {
       return false;
     }
-    console.log(category , this.items.filter(i => i.metaData.type == category && i.display).length)
     var selectedItemsCount = this.items.filter(i => i.metaData.type == category && i.display).length;
     return selectedItemsCount > 0 && selectedItemsCount < this.items.filter(i => i.metaData.type == category).length;
   }
@@ -149,7 +154,6 @@ export class TimelineComponent implements OnInit {
   }
 
   toggleDisplay(completed: boolean, type: string) {
-    console.log("toggle all")
     this.allDisplayedForType[type] = completed;
     this.items.forEach(item => {
       if(item.metaData.type === type) 

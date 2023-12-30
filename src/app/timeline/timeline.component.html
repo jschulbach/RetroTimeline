@@ -2,13 +2,17 @@
     <mat-drawer #drawer mode="over">I'm a drawer</mat-drawer>
     <mat-drawer-content>
         <div class="timeline">
-            <div style="flex-grow: 1; overflow-y: auto; overflow-x: hidden; padding-top: 5px;">
-                <div class="empty-message" *ngIf="displayEmpty">Select items to display.</div>
-                <ng-container *ngFor="let type of itemTypes; let i = index">
-                    <timeline-group [items]="displayItems[type]" [category]="type" (openSideDrawer)="openSideDrawer($event)"></timeline-group>
-                </ng-container>
+            <div style="width: 100%; overflow-x: scroll; flex-grow: 1">
+                <div [style.width.px]="yearWidth * 53" style="height: 100%; display: flex; flex-direction: column;">
+                    <div style="flex-grow: 1; overflow-y: scroll;">
+                        <div class="empty-message" *ngIf="displayEmpty">Select items to display.</div>
+                        <ng-container *ngFor="let type of itemTypes; let i = index">
+                            <timeline-group [items]="displayItems[type]" [category]="type" (openSideDrawer)="openSideDrawer($event)"></timeline-group>
+                        </ng-container>
+                    </div>
+                    <timeline-axis-labels [startDateInput]="getStartYear()" [endDateInput]="getEndYear()" [yearWidthInput]="getYearWidth()"></timeline-axis-labels>
+                </div>
             </div>
-            <timeline-axis-labels [startDateInput]="getStartYear()" [endDateInput]="getEndYear()"></timeline-axis-labels>
             <mat-tab-group animationDuration="0ms" style="height: 400px;">
                 <mat-tab *ngFor="let type of itemTypes" [label]="type">
                     <ng-template mat-tab-label>
@@ -45,6 +49,6 @@
             </mat-tab-group>
         </div>
     </mat-drawer-content>
-  </mat-drawer-container>
+</mat-drawer-container>
 
 

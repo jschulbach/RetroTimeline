@@ -10,6 +10,7 @@ export class AxisLabelsComponent implements OnInit {
 
   @Input() startDateInput: Observable<string> = of('');
   @Input() endDateInput: Observable<string> = of('');
+  @Input() yearWidthInput: Observable<string> = of('');
   public startDate = new Date();
   public endDate = new Date();
 
@@ -29,6 +30,9 @@ export class AxisLabelsComponent implements OnInit {
       this.endDate = new Date(y);
       this.populateLabels();
     });
+    this.yearWidthInput.subscribe(w => {
+      this.yearWidth = +w;
+    })
     
   }
   populateLabels() {
@@ -41,7 +45,7 @@ export class AxisLabelsComponent implements OnInit {
         this.labels.push(String(year).substring(2))
       
     }
-    this.yearWidth = Math.round(this.el.nativeElement.offsetWidth / years);
+    this.yearWidth = 50;
     console.log(years, this.yearWidth)
   }
 

@@ -4,17 +4,17 @@
     color: #ccc;
     position: relative;
     height: 15px;
-
     display: flex;
     flex-direction: row;
     z-index: -1;
+    width: 100%;
 
     div {
         font-size: 11px;
     }
 
     .stripe {
-        background: #f8f8f8;
+        background: #f6f6f6;
         height: 1000px;
         position: absolute;
         bottom: 15px;
