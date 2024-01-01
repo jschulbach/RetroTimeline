@@ -12,6 +12,11 @@ table {
     width: 60px;
 }
 
+.mat-drawer-content {
+    display: flex;
+    flex-direction: column;
+}
+
 .empty-message {
     background: #aaa;
     color: white;
@@ -28,4 +33,8 @@ mat-slider {
 
 mat-drawer {
     width: 550px;
+}
+
+.timeline-groups {
+    height: calc(100% - 15px);
 }

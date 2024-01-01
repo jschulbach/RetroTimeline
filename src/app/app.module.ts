@@ -22,6 +22,7 @@ import { ItemDetailDialogComponent } from './timeline/item-detail-dialog/item-de
 import { HttpClientModule } from '@angular/common/http';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import { ItemDetailComponent } from './timeline/item-detail/item-detail.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     MatTabsModule,
     MatToolbarModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ItemDetailComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

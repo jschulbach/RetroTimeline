@@ -21,8 +21,7 @@ export class GroupComponent implements OnInit {
   }
 
   childEvent(event: Event) {
-    console.log("here!")
-    this.openSideDrawer.emit('event')
+    this.openSideDrawer.emit(event)
   }
 
 }

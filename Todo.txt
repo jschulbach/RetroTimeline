@@ -1,0 +1,5 @@
+- Add search
+- Implement generalized type loading
+X Implement detail drawer data loading
+- remove type groups and allow items to sort
+- update tab icons

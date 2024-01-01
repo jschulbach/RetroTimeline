@@ -3,6 +3,7 @@ import { timelineItem } from './timelineItem'
 import { Base } from '../models/Base';
 import { ItemService } from '../../item.service';
 import {MatDrawer, MatSidenavModule} from '@angular/material/sidenav';
+import { ItemDetailComponent } from './item-detail/item-detail.component';
 
 @Component({
   selector: 'timeline',
@@ -162,9 +163,16 @@ export class TimelineComponent implements OnInit {
     this.updateItems(this.items);
   }
 
+  public itemDetails: any;
+
   openSideDrawer(event: Event) {
-    if(this.drawer)
-      this.drawer.toggle()
+    console.log('got a click for', event)
+    this.itemService.getItem('computer', event).subscribe((i: any) => {
+      this.itemDetails = i;
+      if(this.drawer)
+        this.drawer.toggle()
+    })
+    
   }
 
 }

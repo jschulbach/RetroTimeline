@@ -30,7 +30,7 @@ export class ItemComponent implements OnInit {
   }
 
   openDialog() {
-    this.handleClick.emit('clicked a button')
+    this.handleClick.emit(this.item.metaData.id)
     // const dialogRef = this.dialog.open(ItemDetailDialogComponent, {data: this.item?.metaData, position: {top: '30px'}});
 
     // dialogRef.afterClosed().subscribe(result => {
