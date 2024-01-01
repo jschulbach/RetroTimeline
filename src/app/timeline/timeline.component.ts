@@ -109,6 +109,27 @@ export class TimelineComponent implements OnInit {
     });
   }
 
+  iconForType(type: string) {
+    switch(type as Category) {
+      case Category.CPU :
+        return 'memory';
+      case Category.Memory :
+        return 'memory_alt';
+      case Category.Motherboard :
+        return 'analytics';
+      case Category.Computer:
+        return 'computer';
+      case Category.SoundCard :
+        return 'music_note';
+      case Category.VideoCard :
+        return 'visibility';
+      case Category.OS :
+        return 'terminal';
+      default:
+        return 'home'
+    }
+  }
+
   updateItems(items: any) {
     this.clearDisplayItems();
     this.items.forEach(item => {
@@ -168,9 +189,10 @@ export class TimelineComponent implements OnInit {
   openSideDrawer(event: Event) {
     console.log('got a click for', event)
     this.itemService.getItem('computer', event).subscribe((i: any) => {
+      console.log(i)
       this.itemDetails = i;
       if(this.drawer)
-        this.drawer.toggle()
+        this.drawer.open()
     })
     
   }

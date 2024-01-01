@@ -1,5 +1,6 @@
 <mat-drawer-container class="timeline" hasBackdrop="false">
     <mat-drawer #drawer mode="over">
+        <button mat-raised-button style="position: absolute; top: 0; right: 0;" (click)="drawer.toggle()">X</button>
         <item-detail [itemDetail]="itemDetails"/>
     </mat-drawer>
     <mat-drawer-content>
@@ -15,10 +16,9 @@
         <mat-tab-group animationDuration="0ms" style="height: 400px;">
             <mat-tab *ngFor="let type of itemTypes" [label]="type">
                 <ng-template mat-tab-label>
-                    <mat-icon>memory</mat-icon>
+                    <mat-icon style="margin-right: 2px; transform: scale(.8);">{{iconForType(type)}}</mat-icon>
                     {{type}}
                 </ng-template>
-                <input type="text"/>
                 <table mat-table [dataSource]="items | typefilter:type" class="mat-elevation-z8">
                     <ng-container matColumnDef="display">
                         <th mat-header-cell *matHeaderCellDef><mat-checkbox [indeterminate]="someDisplayed(type)" [checked]="allDisplayedForType[type]" (change)="toggleDisplay($event.checked, type)"></mat-checkbox></th>
@@ -44,7 +44,7 @@
                 </table>
             </mat-tab>
             <mat-tab label="Settings">
-                <button mat-raised-button (click)="drawer.toggle()">Toggle drawer</button>
+                Settings here.
             </mat-tab>
         </mat-tab-group>
     </mat-drawer-content>

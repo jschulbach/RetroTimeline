@@ -17,6 +17,10 @@ table {
     flex-direction: column;
 }
 
+.mat-mdc-tab {
+    border: 1px solid red;
+}
+
 .empty-message {
     background: #aaa;
     color: white;

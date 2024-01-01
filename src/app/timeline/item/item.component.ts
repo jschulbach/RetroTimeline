@@ -19,8 +19,10 @@ export class ItemComponent implements OnInit {
   ngOnInit(): void {
     switch(this.item.metaData.type as Category) {
       case Category.CPU :
-      case Category.Memory :
         this.icon = 'memory';
+        break;
+      case Category.Memory :
+        this.icon = 'memory_alt';
         break;
       case Category.Computer:
         this.icon = 'computer';

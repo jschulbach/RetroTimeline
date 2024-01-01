@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Base } from './app/models/Base';
 import { Category } from './app/models/category.enum';
-import { Observable, forkJoin, from, map, mergeMap, of } from 'rxjs';
+import { Observable, catchError, forkJoin, from, map, mergeMap, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -70,7 +70,16 @@ export class ItemService {
     });
   }
 
-  getItem(type: string, id:Event): any {
-    return this.httpClient.get(`../../assets/${type}/${id}/item.json`) as any;
+  getItem(type: string, id:Event): Observable<any> {
+    return this.httpClient.get(`../../assets/${type}/${id}/item.json`).pipe(
+      catchError(this.handleError)
+    ) as any;
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    return of( {
+      name: "test",
+      desc: "No details found."
+    })
   }
 }

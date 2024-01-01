@@ -16,9 +16,7 @@ export class GroupComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-    console.log('group got items', this.items)
-  }
+  ngOnInit(): void {}
 
   childEvent(event: Event) {
     this.openSideDrawer.emit(event)
